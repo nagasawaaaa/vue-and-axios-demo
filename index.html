@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>天気予報</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+    #app {
+      max-width: 1080px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .app-header {
+      background-color: #eee;
+      padding: 10px 20px 30px;
+    }
+    .app-body {
+      background-color: #fff;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-header">
+      <h1>天気予報</h1>
+
+      <div>
+        エリアを選択：
+        <select class="form-control" v-model="city" v-on:change="get_weather(city)">
+          <option v-for="item in cities" v-bind:value="item.id">{{ item.name }}</option>
+        </select>
+      </div>
+    </div>
+    <!-- /.app-header -->
+    <div class="app-body">
+      <h2>{{ title }}</h2>
+      <p>{{ text }}</p>
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr>
+            <th>日付</th>
+            <th v-for="item in weather">{{ item.date }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>天気</th>
+            <td v-for="item in weather">{{ item.telop }} <br> <img v-bind:src="item.image.url" v-bind:alt="item.image.title"></td>
+          </tr>
+          <tr>
+            <th>最高気温</th>
+            <td v-for="item in weather"><span v-if="item.temperature.max !== null">{{ item.temperature.max.celsius }}</span><span v-else=>-</span></td>
+          </tr>
+          <tr>
+            <th>最低気温</th>
+            <td v-for="item in weather"><span v-if="item.temperature.min !== null">{{ item.temperature.min.celsius }}</span><span v-else=>-</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- /.app-body -->
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
